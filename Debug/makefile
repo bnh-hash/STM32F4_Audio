@@ -64,8 +64,8 @@ all: main-build
 main-build: USB_OTG_FS_Deneme.elf secondary-outputs
 
 # Tool invocations
-USB_OTG_FS_Deneme.elf USB_OTG_FS_Deneme.map: $(OBJS) $(USER_OBJS) C:\stmx\USB_OTG_FS_Deneme\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
-	arm-none-eabi-gcc -o "USB_OTG_FS_Deneme.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\stmx\USB_OTG_FS_Deneme\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB_OTG_FS_Deneme.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
+USB_OTG_FS_Deneme.elf USB_OTG_FS_Deneme.map: $(OBJS) $(USER_OBJS) C:\Users\Gökçe\Desktop\stm32\stm32f4_USB2audio\STM32F407VGTX_FLASH.ld makefile objects.list $(OPTIONAL_TOOL_DEPS)
+	arm-none-eabi-gcc -o "USB_OTG_FS_Deneme.elf" @"objects.list" $(USER_OBJS) $(LIBS) -mcpu=cortex-m4 -T"C:\Users\Gökçe\Desktop\stm32\stm32f4_USB2audio\STM32F407VGTX_FLASH.ld" --specs=nosys.specs -Wl,-Map="USB_OTG_FS_Deneme.map" -Wl,--gc-sections -static --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -Wl,--start-group -lc -lm -Wl,--end-group
 	@echo 'Finished building target: $@'
 	@echo ' '
 

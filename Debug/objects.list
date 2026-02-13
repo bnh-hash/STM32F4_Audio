@@ -1,4 +1,8 @@
+"./Core/Src/app_main.o"
+"./Core/Src/cs43l22.o"
 "./Core/Src/main.o"
+"./Core/Src/stm32f4_discovery.o"
+"./Core/Src/stm32f4_discovery_audio.o"
 "./Core/Src/stm32f4xx_hal_msp.o"
 "./Core/Src/stm32f4xx_it.o"
 "./Core/Src/syscalls.o"

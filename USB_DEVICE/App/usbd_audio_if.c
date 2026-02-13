@@ -1,28 +1,10 @@
 /* USER CODE BEGIN Header */
-/**
-  ******************************************************************************
-  * @file           : usbd_audio_if.c
-  * @version        : v1.0_Cube
-  * @brief          : Generic media access layer.
-  ******************************************************************************
-  * @attention
-  *
-  * Copyright (c) 2026 STMicroelectronics.
-  * All rights reserved.
-  *
-  * This software is licensed under terms that can be found in the LICENSE file
-  * in the root directory of this software component.
-  * If no LICENSE file comes with this software, it is provided AS-IS.
-  *
-  ******************************************************************************
-  */
  /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_audio_if.h"
 
 /* USER CODE BEGIN INCLUDE */
-
 /* USER CODE END INCLUDE */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -30,8 +12,6 @@
 /* Private macro -------------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-/* Private variables ---------------------------------------------------------*/
-extern I2S_HandleTypeDef hi2s3;
 /* USER CODE END PV */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
@@ -49,7 +29,6 @@ extern I2S_HandleTypeDef hi2s3;
   */
 
 /* USER CODE BEGIN PRIVATE_TYPES */
-
 /* USER CODE END PRIVATE_TYPES */
 
 /**
@@ -62,7 +41,6 @@ extern I2S_HandleTypeDef hi2s3;
   */
 
 /* USER CODE BEGIN PRIVATE_DEFINES */
-
 /* USER CODE END PRIVATE_DEFINES */
 
 /**
@@ -75,7 +53,6 @@ extern I2S_HandleTypeDef hi2s3;
   */
 
 /* USER CODE BEGIN PRIVATE_MACRO */
-
 /* USER CODE END PRIVATE_MACRO */
 
 /**
@@ -88,7 +65,6 @@ extern I2S_HandleTypeDef hi2s3;
   */
 
 /* USER CODE BEGIN PRIVATE_VARIABLES */
-
 /* USER CODE END PRIVATE_VARIABLES */
 
 /**
@@ -103,7 +79,6 @@ extern I2S_HandleTypeDef hi2s3;
 extern USBD_HandleTypeDef hUsbDeviceFS;
 
 /* USER CODE BEGIN EXPORTED_VARIABLES */
-
 /* USER CODE END EXPORTED_VARIABLES */
 
 /**
@@ -124,7 +99,6 @@ static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd);
 static int8_t AUDIO_GetState_FS(void);
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_DECLARATION */
-
 /* USER CODE END PRIVATE_FUNCTIONS_DECLARATION */
 
 /**
@@ -153,10 +127,6 @@ USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
 static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t options)
 {
   /* USER CODE BEGIN 0 */
-	  UNUSED(AudioFreq);
-	  UNUSED(Volume);
-	  UNUSED(options);
-	  return (USBD_OK);
   /* USER CODE END 0 */
 }
 
@@ -168,8 +138,6 @@ static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t option
 static int8_t AUDIO_DeInit_FS(uint32_t options)
 {
   /* USER CODE BEGIN 1 */
-  UNUSED(options);
-  return (USBD_OK);
   /* USER CODE END 1 */
 }
 
@@ -183,26 +151,7 @@ static int8_t AUDIO_DeInit_FS(uint32_t options)
 static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd)
 {
   /* USER CODE BEGIN 2 */
-	switch(cmd)
-	  {
-	    case AUDIO_CMD_START:
-	      // Paket boyutunu doğrula: size değeri byte cinsindendir.
-	      // I2S 16-bit çalıştığı için toplam örnek sayısı size / 2 olur.
-	      HAL_I2S_Transmit_DMA(&hi2s3, (uint16_t*)pbuf, (uint16_t)(size / 2));
-	      break;
-	      
-	    case AUDIO_CMD_STOP:
-	      HAL_I2S_DMAStop(&hi2s3);
-	      break;
-	      
-	      
-	    case AUDIO_CMD_BOM_BOM:
-	    HAL_I2S_DMASTARTGO;
-	  }
-  UNUSED(pbuf);
-  UNUSED(size);
-  UNUSED(cmd);
-  return (USBD_OK);
+
   /* USER CODE END 2 */
 }
 
@@ -214,8 +163,6 @@ static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd)
 static int8_t AUDIO_VolumeCtl_FS(uint8_t vol)
 {
   /* USER CODE BEGIN 3 */
-  UNUSED(vol);
-  return (USBD_OK);
   /* USER CODE END 3 */
 }
 
@@ -227,8 +174,6 @@ static int8_t AUDIO_VolumeCtl_FS(uint8_t vol)
 static int8_t AUDIO_MuteCtl_FS(uint8_t cmd)
 {
   /* USER CODE BEGIN 4 */
-  UNUSED(cmd);
-  return (USBD_OK);
   /* USER CODE END 4 */
 }
 
@@ -240,10 +185,6 @@ static int8_t AUDIO_MuteCtl_FS(uint8_t cmd)
 static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd)
 {
   /* USER CODE BEGIN 5 */
-  UNUSED(pbuf);
-  UNUSED(size);
-  UNUSED(cmd);
-  return (USBD_OK);
   /* USER CODE END 5 */
 }
 
@@ -254,7 +195,6 @@ static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd)
 static int8_t AUDIO_GetState_FS(void)
 {
   /* USER CODE BEGIN 6 */
-  return (USBD_OK);
   /* USER CODE END 6 */
 }
 
@@ -265,7 +205,6 @@ static int8_t AUDIO_GetState_FS(void)
 void TransferComplete_CallBack_FS(void)
 {
   /* USER CODE BEGIN 7 */
-  USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_FULL);
   /* USER CODE END 7 */
 }
 
@@ -276,12 +215,10 @@ void TransferComplete_CallBack_FS(void)
 void HalfTransfer_CallBack_FS(void)
 {
   /* USER CODE BEGIN 8 */
-  USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_HALF);
   /* USER CODE END 8 */
 }
 
 /* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
-
 /* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
 
 /**

@@ -1,0 +1,5 @@
+../Core/Src/app_main.c:36:6:Generate_Sine_Segment	40	static
+../Core/Src/app_main.c:49:6:BSP_AUDIO_OUT_HalfTransfer_CallBack	16	static
+../Core/Src/app_main.c:59:6:BSP_AUDIO_OUT_TransferComplete_CallBack	16	static
+../Core/Src/app_main.c:71:6:App_Init	8	static
+../Core/Src/app_main.c:87:6:App_Loop	88	static
