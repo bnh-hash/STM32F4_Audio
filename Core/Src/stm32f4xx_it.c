@@ -243,5 +243,13 @@ void OTG_FS_IRQHandler(void)
 }
 
 /* USER CODE BEGIN 1 */
+/* stm32f4xx_it.c dosyasının EN ALTINA ekle */
+
+extern DMA_HandleTypeDef hdma_spi3_tx; // main.c'deki dma handle ismin neyse o olmalı
+
+void DMA1_Stream7_IRQHandler(void)
+{
+  HAL_DMA_IRQHandler(&hdma_spi3_tx);
+}
 
 /* USER CODE END 1 */
