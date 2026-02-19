@@ -1,6 +1,2 @@
-../Core/Src/app_main.c:48:6:Smart_Delay_With_ADC	32	static
-../Core/Src/app_main.c:73:6:Generate_Sine_Segment	40	static
-../Core/Src/app_main.c:89:6:BSP_AUDIO_OUT_HalfTransfer_CallBack	8	static
-../Core/Src/app_main.c:97:6:BSP_AUDIO_OUT_TransferComplete_CallBack	8	static
-../Core/Src/app_main.c:108:6:App_Init	8	static
-../Core/Src/app_main.c:123:6:App_Loop	88	static
+../Core/Src/app_main.c:32:6:App_Init	8	static
+../Core/Src/app_main.c:50:6:App_Loop	16	static
