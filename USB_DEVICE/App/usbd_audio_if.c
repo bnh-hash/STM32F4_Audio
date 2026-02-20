@@ -14,6 +14,7 @@
 #include "filter.h"                  // Senin DSP Kütüphanen
 #include "app_main.h"                // Global değişkenler için
 
+
 /* USER CODE BEGIN PV */
 extern I2S_HandleTypeDef hi2s3;
 extern USBD_HandleTypeDef hUsbDeviceFS;
@@ -113,8 +114,8 @@ void HalfTransfer_CallBack_FS(void)
   uint32_t sample_count = (3840 / 2); // 3840 tanımını app_main.c'den al veya makro yap
 
   // 4. DSP Filtrelerini Uygula
-  //filter_apply_ring(pData, sample_count, (float*)&carrier_phase, robot_freq, 48000);
-  //filter_apply_volume(pData, sample_count, global_volume);
+  filter_apply_ring(pData, sample_count, (float*)&carrier_phase, potans_val.ring_mod_freq, 48000);
+  filter_apply_volume(pData, sample_count, potans_val.volume);
 }
 
 /**
@@ -130,11 +131,11 @@ void TransferComplete_CallBack_FS(void)
 
   // 3. Veri göstericisini ayarla (Tamponun ortası)
   uint32_t sample_count = (3840 / 2);
-  int16_t* pData = (int16_t*)&USB_Rx_Buffer[sample_count * 2]; // byte cinsinden offset
+  int16_t* pData = (int16_t*)&USB_Rx_Buffer[sample_count]; // byte cinsinden offset
 
   // 4. DSP Filtrelerini Uygula
-  //filter_apply_ring(pData, sample_count, (float*)&carrier_phase, robot_freq, 48000);
-  //filter_apply_volume(pData, sample_count, global_volume);
+  filter_apply_ring(pData, sample_count, (float*)&carrier_phase, potans_val.ring_mod_freq, 48000);
+  filter_apply_volume(pData, sample_count, potans_val.volume);
 }
 
 
@@ -148,3 +149,4 @@ USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
   AUDIO_PeriodicTC_FS,
   AUDIO_GetState_FS,
 };
+

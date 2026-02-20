@@ -1,6 +1,5 @@
 /*
  * app_main.c
- *
  * Created on: Feb 19, 2026
  * Author: Gökçe
  */
@@ -10,58 +9,64 @@
 #include "filter.h"
 #include <math.h>
 
-/* --- Tanımlamalar --- */
-#ifndef M_PI
-#define M_PI 3.14159265358979323846f
-#endif
-
-#define BUFFER_SIZE      (3840)
-#define SAMPLING_FREQ    48000
 
 /* --- Dış Değişkenler --- */
 extern ADC_HandleTypeDef hadc1;
-// USB kütüphanesi tarafından yönetilen ana ses tamponu
-extern uint8_t USB_Rx_Buffer[BUFFER_SIZE * 2];
 
-/* --- Global Değişkenler (usbd_audio_if.c ile paylaşılacak) --- */
-volatile float global_volume = 0.5f;       // USB Host (Bilgisayar) tarafından kontrol edilecek
-volatile float carrier_phase = 0.0f;       // DSP Filtresi için faz takibi
-volatile float filter_intensity = 1.0f;    // ADC (Potansiyometre) tarafından kontrol edilecek
+/* --- Global Değişkenler --- */
+// potans_val struct'ı filter.c içinde tanımlandığı için burada 'extern' ile erişiyoruz
+volatile float carrier_phase = 0.0f; // Ring modülasyonu faz takibi
+uint8_t USB_Rx_Buffer[3840];
+/* --- ADC Yardımcı Fonksiyonu --- */
+/**
+ * @brief Belirtilen kanalı aktif eder ve bir kez okuma yapar.
+ * @param channel: ADC_CHANNEL_1, ADC_CHANNEL_2 vb.
+ */
+uint32_t ADC_Read_Helper(uint32_t channel) {
+    ADC_ChannelConfTypeDef sConfig = {0};
+    sConfig.Channel = channel;
+    sConfig.Rank = 1;
+    sConfig.SamplingTime = ADC_SAMPLETIME_15CYCLES;
+
+    if (HAL_ADC_ConfigChannel(&hadc1, &sConfig) != HAL_OK) {
+        return 0;
+    }
+
+    HAL_ADC_Start(&hadc1);
+    HAL_ADC_PollForConversion(&hadc1, 10);
+    uint32_t val = HAL_ADC_GetValue(&hadc1);
+    HAL_ADC_Stop(&hadc1);
+
+    return val;
+}
 
 /* --- Uygulama Başlatma --- */
 void App_Init(void) {
-    // 1. Ses Çipi (CS43L22) Resetleme Dizisi
+    // 1. Ses Çipi (CS43L22) Resetleme
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4, GPIO_PIN_RESET);
     HAL_Delay(50);
     HAL_GPIO_WritePin(GPIOD, GPIO_PIN_4, GPIO_PIN_SET);
     HAL_Delay(50);
 
-    // 2. Ses Donanımını (BSP) Başlat
-    // Not: Başlangıçta 70 seviyesinde açıyoruz, USB bağlandığında PC bunu güncelleyecek.
-    if (BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 70, SAMPLING_FREQ) != AUDIO_OK) {
+    // 2. Ses Donanımını Başlat (Başlangıç sesi %70)
+    if (BSP_AUDIO_OUT_Init(OUTPUT_DEVICE_HEADPHONE, 100, SAMPLING_FREQ) != AUDIO_OK) {
         Error_Handler();
     }
-
-    // USB'den veri gelene kadar sistemi bekleme modunda bırakıyoruz.
-    // Çalma işlemi usbd_audio_if.c içindeki AUDIO_CMD_START ile tetiklenecek.
 }
-
-/* --- Ana Melodi Döngüsü --- */
+/* --- Ana Döngü --- */
 void App_Loop(void) {
-    // USB Audio işlemleri DMA ve Kesmeler (Interrupts) ile arka planda çalışır.
-    // Ana döngüde sadece ADC (Potansiyometre) okuması yaparak filtre efektini ayarlıyoruz.
+    /* * 1. ADIM: Potansiyometrelerin ham değerlerini oku.
+     * Şematiğine göre PA1(CH1) ve PA2(CH2) kullandığını varsayıyoruz.
+     */
+    potans_val.raw_adc[0] = ADC_Read_Helper(ADC_CHANNEL_1); // Volume Potu
+    potans_val.raw_adc[1] = ADC_Read_Helper(ADC_CHANNEL_2); // Ring Mod Frekans Potu
 
-    HAL_ADC_Start(&hadc1);
-    if (HAL_ADC_PollForConversion(&hadc1, 10) == HAL_OK) {
-        uint32_t raw_val = HAL_ADC_GetValue(&hadc1);
+    /* * 2. ADIM: Okunan ham değerleri fiziksel birimlere (0.0-1.0 ve Hz) dönüştür.
+     * Bu fonksiyon filter.c dosyasında yer alacak.
+     */
+    potans_update(&potans_val);
 
-        // 0-4095 değerini 0.5f - 5.0f aralığında bir çarpana çeviriyoruz (Efekt şiddeti)
-        float instant_intensity = 0.5f + ((float)raw_val / 4095.0f) * 4.5f;
-
-        // Yumuşatma (Smoothing) filtresi ile potansiyometre gürültüsünü engelle
-        filter_intensity = (filter_intensity * 0.95f) + (instant_intensity * 0.05f);
-    }
-    HAL_ADC_Stop(&hadc1);
-
-    HAL_Delay(500); // İşlemciyi %100 meşgul etmemek için küçük bir bekleme
+    /* * 3. ADIM: İşlemciyi boşa yormamak ve ADC'nin kararlı çalışması için küçük bir ara.
+     */
+    HAL_Delay(20);
 }
