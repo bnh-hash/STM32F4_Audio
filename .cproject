@@ -44,6 +44,9 @@
 								</option>
 								<option IS_BUILTIN_EMPTY="false" IS_VALUE_EMPTY="false" id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths.293869812" name="Include paths (-I)" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.option.includepaths" useByScannerDiscovery="false" valueType="includePath">
 									<listOptionValue builtIn="false" value="../USB_DEVICE/App"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\eren.bülbül\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.1\Drivers\BSP\Components\cs43l22&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\eren.bülbül\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.1\Drivers\BSP\Components\Common&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;C:\Users\eren.bülbül\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.1\Drivers\BSP\STM32F4-Discovery&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Users\Gökçe\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.3\Drivers\BSP\Components\Common&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Users\Gökçe\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.3\Drivers\BSP\STM32F4-Discovery&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;C:\Users\Gökçe\STM32Cube\Repository\STM32Cube_FW_F4_V1.28.3\Drivers\BSP\Components\cs43l22&quot;"/>

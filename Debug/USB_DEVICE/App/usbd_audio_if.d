@@ -43,11 +43,11 @@ USB_DEVICE/App/usbd_audio_if.o: ../USB_DEVICE/App/usbd_audio_if.c \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h \
  ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h \
- C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.h \
- C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/cs43l22.h \
- C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/../Common/audio.h \
- C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h \
- C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h \
+ C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.h \
+ C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/cs43l22.h \
+ C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/../Common/audio.h \
+ C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h \
+ C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h \
  ../Core/Inc/filter.h ../Core/Inc/app_main.h ../Core/Inc/main.h
 ../USB_DEVICE/App/usbd_audio_if.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Class/AUDIO/Inc/usbd_audio.h:
@@ -94,11 +94,11 @@ USB_DEVICE/App/usbd_audio_if.o: ../USB_DEVICE/App/usbd_audio_if.c \
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_core.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ioreq.h:
 ../Middlewares/ST/STM32_USB_Device_Library/Core/Inc/usbd_ctlreq.h:
-C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.h:
-C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/cs43l22.h:
-C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/../Common/audio.h:
-C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h:
-C:/Users/Gökçe/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.3/Drivers/BSP/STM32F4-Discovery/../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h:
+C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.h:
+C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/cs43l22.h:
+C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/../Common/audio.h:
+C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h:
+C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h:
 ../Core/Inc/filter.h:
 ../Core/Inc/app_main.h:
 ../Core/Inc/main.h:

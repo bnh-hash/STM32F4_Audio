@@ -24,7 +24,8 @@ extern volatile float carrier_phase;
 extern volatile float filter_intensity;
 extern uint8_t USB_Rx_Buffer[];
 
-
+volatile uint8_t play_state = 0;    // 0: Durdu, 1: Doluyor, 2: Çalıyor
+volatile uint32_t fill_counter = 0; // 1ms'lik paket sayacı
 /* USER CODE END PV */
 
 /* Private functions ---------------------------------------------------------*/
@@ -49,11 +50,13 @@ static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd)
     case AUDIO_CMD_START:
       // Bilgisayar "Oynat" dediğinde I2S ve CS43L22 DAC çipini başlat
       // size byte cinsindendir, ancak bizim BSP fonksiyonları genellikle byte bekler.
-      BSP_AUDIO_OUT_Play((uint16_t*)pbuf, size);
+    	fill_counter = 0;
+    	play_state = 1;
       break;
 
     case AUDIO_CMD_STOP:
       // Bilgisayar sesi durdurduğunda DAC'ı uyku moduna al
+    	play_state = 0;
       BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
       break;
   }
@@ -81,6 +84,15 @@ static int8_t AUDIO_MuteCtl_FS(uint8_t cmd)
 
 static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd)
 {
+	if (play_state == 1)
+	  {
+		  fill_counter++;
+		  if (fill_counter >= 10)
+		  {
+			  play_state = 2;
+			  BSP_AUDIO_OUT_Play((uint16_t*)pbuf, size * 2);
+		  }
+	  }
   return (USBD_OK);
 }
 
