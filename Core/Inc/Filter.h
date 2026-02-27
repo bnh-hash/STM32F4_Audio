@@ -1,30 +1,8 @@
-/*
- * filter.h
- * Author: Gökçe
- */
-
-#ifndef FILTER_H_
-#define FILTER_H_
+#ifndef FILTER_H
+#define FILTER_H
 
 #include <stdint.h>
 
-<<<<<<< Updated upstream
-/*
- * Fonksiyon: filter_apply_volume
- * Amaç: Ses sinyalinin genliğini (ses seviyesini) değiştirir.
- * Parametreler:
- * - volume: 0.0 (Sessiz) ile 1.0 (Maksimum) arası katsayı.
- */
-void filter_apply_volume(int16_t *input_buf, uint32_t length, float volume);
-
-/*
- * Fonksiyon: filter_apply_ring
- * Amaç: Robotik ses efekti (Ring Modulator).
- */
-void filter_apply_ring(int16_t *input_buf, uint32_t length, float *carrier_phase, float carrier_freq, uint32_t sampling_freq);
-
-#endif /* FILTER_H_ */
-=======
 /* --- SES KONFIGURASYONU --- */
 #define SAMPLE_RATE 48000.0f
 #define PI          3.14159265f
@@ -90,4 +68,3 @@ void Filter_Set_Params(filter_params_t *new_params);
 void Filter_Apply(int16_t *buffer, uint32_t num_samples);
 
 #endif // FILTER_H
->>>>>>> Stashed changes

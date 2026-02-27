@@ -1,11 +1,6 @@
-<<<<<<< Updated upstream
-Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/app_main.h \
- ../Core/Inc/main.h ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
-=======
 Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/filter.h \
  ../Core/Inc/audio_stream.h ../Core/Inc/app_main.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h \
->>>>>>> Stashed changes
  ../Core/Inc/stm32f4xx_hal_conf.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_def.h \
@@ -49,7 +44,6 @@ Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/filter.h \
 ../Core/Inc/filter.h:
 ../Core/Inc/audio_stream.h:
 ../Core/Inc/app_main.h:
-../Core/Inc/main.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal.h:
 ../Core/Inc/stm32f4xx_hal_conf.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_rcc.h:

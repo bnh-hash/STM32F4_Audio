@@ -5,13 +5,13 @@
  *      Author: Gökçe
  */
 
-#ifndef INC_APP_MAIN_H_
-#define INC_APP_MAIN_H_
+#ifndef APP_MAIN_H
+#define APP_MAIN_H
 
-#include "main.h"
+#include "stm32f4xx_hal.h"
 
-// Dışarıdan çağrılacak ana fonksiyonlar
+// main.c'nin bu fonksiyonları tanıması için prototipler:
 void App_Init(void);
 void App_Loop(void);
 
-#endif /* INC_APP_MAIN_H_ */
+#endif

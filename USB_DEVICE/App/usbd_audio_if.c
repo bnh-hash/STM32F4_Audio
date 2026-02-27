@@ -10,14 +10,8 @@
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_audio_if.h"
-<<<<<<< Updated upstream
-#include "stm32f4_discovery_audio.h" // BSP Ses Kütüphanesi
-#include "filter.h"                  // Senin DSP Kütüphanen
-#include "app_main.h"                // Global değişkenler için
-=======
 #include "stm32f4_discovery_audio.h"
 #include "audio_stream.h" // YENI MOTOR DOSYAMIZ
->>>>>>> Stashed changes
 
 /* USER CODE BEGIN PV */
 extern USBD_HandleTypeDef hUsbDeviceFS;
@@ -153,53 +147,18 @@ static int8_t AUDIO_GetState_FS(void)
 
 void BSP_AUDIO_OUT_HalfTransfer_CallBack(void)
 {
-<<<<<<< Updated upstream
-  // 1. USB Feedback Senkronizasyonu (Çıtırtıları önler)
-  USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_HALF);
-
-  // 2. DSP Parametrelerini hesapla (ADC'den okunan intensity ile)
-  float robot_freq = 1000.0f * filter_intensity;
-
-  // 3. Veri göstericisini ayarla (Tamponun başı)
-  // pData int16_t (16-bit) formatına cast ediliyor.
-  int16_t* pData = (int16_t*)USB_Rx_Buffer;
-
-  // BUFFER_SIZE'ın yarısı kadar örnek (sample) işlenecek
-  uint32_t sample_count = (3840 / 2); // 3840 tanımını app_main.c'den al veya makro yap
-
-  // 4. DSP Filtrelerini Uygula
-  //filter_apply_ring(pData, sample_count, (float*)&carrier_phase, robot_freq, 48000);
-  //filter_apply_volume(pData, sample_count, global_volume);
-=======
   // Eger calmiyorsak bosuna islem yapma
   if (current_audio_state == AUDIO_STATE_PLAYING) {
       AudioStream_Process_Half_Transfer();
   }
->>>>>>> Stashed changes
 }
 
 void BSP_AUDIO_OUT_TransferComplete_CallBack(void)
 {
-<<<<<<< Updated upstream
-  // 1. USB Feedback Senkronizasyonu
-  USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_FULL);
-
-  // 2. DSP Parametreleri
-  float robot_freq = 1000.0f * filter_intensity;
-
-  // 3. Veri göstericisini ayarla (Tamponun ortası)
-  uint32_t sample_count = (3840 / 2);
-  int16_t* pData = (int16_t*)&USB_Rx_Buffer[sample_count * 2]; // byte cinsinden offset
-
-  // 4. DSP Filtrelerini Uygula
-  //filter_apply_ring(pData, sample_count, (float*)&carrier_phase, robot_freq, 48000);
-  //filter_apply_volume(pData, sample_count, global_volume);
-=======
   // Eger calmiyorsak bosuna islem yapma
   if (current_audio_state == AUDIO_STATE_PLAYING) {
       AudioStream_Process_Full_Transfer();
   }
->>>>>>> Stashed changes
 }
 
 /* --- LINKER HATASINI COZEN YAPI --- */
