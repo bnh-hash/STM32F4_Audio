@@ -1,6 +1,7 @@
-"./Core/Src/Filter.o"
 "./Core/Src/app_main.o"
+"./Core/Src/audio_stream.o"
 "./Core/Src/cs43l22.o"
+"./Core/Src/filter.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f4_discovery.o"
 "./Core/Src/stm32f4_discovery_audio.o"

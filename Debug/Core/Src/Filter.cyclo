@@ -1,2 +1,17 @@
+<<<<<<< Updated upstream
 ../Core/Src/Filter.c:25:6:filter_apply_volume	2
 ../Core/Src/Filter.c:33:6:filter_apply_ring	4
+=======
+../Core/Src/filter.c:52:14:Calculate_LPF_Alpha	3
+../Core/Src/filter.c:60:14:Calculate_HPF_Alpha	3
+../Core/Src/filter.c:70:6:Filter_Init	3
+../Core/Src/filter.c:101:6:Filter_Set_Params	3
+../Core/Src/filter.c:115:13:Apply_RingModulator	3
+../Core/Src/filter.c:126:13:Apply_LPF	2
+../Core/Src/filter.c:133:13:Apply_HPF	2
+../Core/Src/filter.c:143:13:Apply_AutoWah	6
+../Core/Src/filter.c:175:13:Apply_Bitcrusher	3
+../Core/Src/filter.c:216:13:Apply_Delay	4
+../Core/Src/filter.c:242:13:Apply_MasterVolume_And_Clip	5
+../Core/Src/filter.c:251:6:Filter_Apply	2
+>>>>>>> Stashed changes
