@@ -1,5 +1,5 @@
-../Core/Src/app_main.c:35:6:Update_LEDs	6
-../Core/Src/app_main.c:60:6:Set_Audio_Mode	5
-../Core/Src/app_main.c:108:6:App_Init	2
-../Core/Src/app_main.c:129:6:Check_Filter_Button	5
-../Core/Src/app_main.c:154:6:App_Loop	1
+../Core/Src/app_main.c:28:6:Update_LEDs	5
+../Core/Src/app_main.c:39:6:Set_Audio_Mode	5
+../Core/Src/app_main.c:75:6:App_Init	1
+../Core/Src/app_main.c:92:6:Check_Filter_Button	5
+../Core/Src/app_main.c:106:6:App_Loop	1

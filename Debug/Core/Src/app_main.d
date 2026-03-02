@@ -36,11 +36,7 @@ Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/filter.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h \
  ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h \
- C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.h \
- C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/cs43l22.h \
- C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/../Common/audio.h \
- C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h \
- C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h
+ ../Core/Inc/main.h
 ../Core/Inc/filter.h:
 ../Core/Inc/audio_stream.h:
 ../Core/Inc/app_main.h:
@@ -80,8 +76,4 @@ Core/Src/app_main.o: ../Core/Src/app_main.c ../Core/Inc/filter.h \
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_ll_usb.h:
 ../Drivers/STM32F4xx_HAL_Driver/Inc/stm32f4xx_hal_pcd_ex.h:
-C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery_audio.h:
-C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/cs43l22.h:
-C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../Components/cs43l22/../Common/audio.h:
-C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/stm32f4_discovery.h:
-C:/Users/eren.bülbül/STM32Cube/Repository/STM32Cube_FW_F4_V1.28.1/Drivers/BSP/STM32F4-Discovery/../../../Middlewares/ST/STM32_Audio/Addons/PDM/Inc/pdm2pcm_glo.h:
+../Core/Inc/main.h:

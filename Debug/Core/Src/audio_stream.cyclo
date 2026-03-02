@@ -1,7 +1,10 @@
-../Core/Src/audio_stream.c:20:6:AudioStream_Init	1
-../Core/Src/audio_stream.c:24:6:AudioStream_Reset	1
-../Core/Src/audio_stream.c:33:6:AudioStream_Write_USB_Packet	3
-../Core/Src/audio_stream.c:51:9:AudioStream_Is_Ready_To_Play	2
-../Core/Src/audio_stream.c:60:13:Process_Audio_Chunk	5
-../Core/Src/audio_stream.c:111:6:AudioStream_Process_Half_Transfer	1
-../Core/Src/audio_stream.c:125:6:AudioStream_Process_Full_Transfer	1
+../Core/Src/audio_stream.c:28:6:AudioStream_Init	1
+../Core/Src/audio_stream.c:33:6:AudioStream_Start	1
+../Core/Src/audio_stream.c:38:6:AudioStream_Reset	1
+../Core/Src/audio_stream.c:47:6:AudioStream_Write_USB_Packet	3
+../Core/Src/audio_stream.c:60:9:AudioStream_Is_Ready_To_Play	2
+../Core/Src/audio_stream.c:68:13:Process_Audio_Chunk	5
+../Core/Src/audio_stream.c:103:6:AudioStream_Process_Half_Transfer	1
+../Core/Src/audio_stream.c:110:6:AudioStream_Process_Full_Transfer	1
+../Core/Src/audio_stream.c:120:6:HAL_I2S_TxHalfCpltCallback	2
+../Core/Src/audio_stream.c:127:6:HAL_I2S_TxCpltCallback	2

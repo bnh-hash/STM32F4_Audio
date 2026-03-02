@@ -29,7 +29,11 @@
 #include "usbd_audio.h"
 
 /* USER CODE BEGIN INCLUDE */
-
+ typedef enum {
+     AUDIO_STATE_STOPPED = 0,
+     AUDIO_STATE_BUFFERING,
+     AUDIO_STATE_PLAYING
+ } audio_state_t;
 /* USER CODE END INCLUDE */
 
 /** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY

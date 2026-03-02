@@ -6,43 +6,152 @@
   * MODULER YAPI: USB Arayuzu ve Donanim Koprusu
   ******************************************************************************
   */
-/* USER CODE END Header */
+ /* USER CODE END Header */
 
 /* Includes ------------------------------------------------------------------*/
 #include "usbd_audio_if.h"
-#include "stm32f4_discovery_audio.h"
-#include "audio_stream.h" // YENI MOTOR DOSYAMIZ
+
+/* USER CODE BEGIN INCLUDE */
+// #include "stm32f4_discovery_audio.h" // SİLİNDİ: Harici DAC kullanıyoruz
+#include "audio_stream.h"
+/* USER CODE END INCLUDE */
+
+/* Private typedef -----------------------------------------------------------*/
+/* Private define ------------------------------------------------------------*/
+/* Private macro -------------------------------------------------------------*/
 
 /* USER CODE BEGIN PV */
-extern USBD_HandleTypeDef hUsbDeviceFS;
-
-// Oynatma Durum Makinesi
-typedef enum {
-    AUDIO_STATE_STOPPED = 0,
-    AUDIO_STATE_BUFFERING,
-    AUDIO_STATE_PLAYING
-} AudioState_TypeDef;
-
-static volatile AudioState_TypeDef current_audio_state = AUDIO_STATE_STOPPED;
-
+// Global degiskenler buraya
+static volatile audio_state_t current_audio_state = AUDIO_STATE_STOPPED;
 /* USER CODE END PV */
 
-/* Private functions ---------------------------------------------------------*/
+/** @addtogroup STM32_USB_OTG_DEVICE_LIBRARY
+  * @brief Usb device library.
+  * @{
+  */
 
+/** @addtogroup USBD_AUDIO_IF
+  * @{
+  */
+
+/** @defgroup USBD_AUDIO_IF_Private_TypesDefinitions USBD_AUDIO_IF_Private_TypesDefinitions
+  * @brief Private types.
+  * @{
+  */
+
+/* USER CODE BEGIN PRIVATE_TYPES */
+/* USER CODE END PRIVATE_TYPES */
+
+/**
+  * @}
+  */
+
+/** @defgroup USBD_AUDIO_IF_Private_Defines USBD_AUDIO_IF_Private_Defines
+  * @brief Private defines.
+  * @{
+  */
+
+/* USER CODE BEGIN PRIVATE_DEFINES */
+
+/* USER CODE END PRIVATE_DEFINES */
+
+/**
+  * @}
+  */
+
+/** @defgroup USBD_AUDIO_IF_Private_Macros USBD_AUDIO_IF_Private_Macros
+  * @brief Private macros.
+  * @{
+  */
+
+/* USER CODE BEGIN PRIVATE_MACRO */
+
+/* USER CODE END PRIVATE_MACRO */
+
+/**
+  * @}
+  */
+
+/** @defgroup USBD_AUDIO_IF_Private_Variables USBD_AUDIO_IF_Private_Variables
+  * @brief Private variables.
+  * @{
+  */
+
+/* USER CODE BEGIN PRIVATE_VARIABLES */
+
+/* USER CODE END PRIVATE_VARIABLES */
+
+/**
+  * @}
+  */
+
+/** @defgroup USBD_AUDIO_IF_Exported_Variables USBD_AUDIO_IF_Exported_Variables
+  * @brief Public variables.
+  * @{
+  */
+
+extern USBD_HandleTypeDef hUsbDeviceFS;
+
+/* USER CODE BEGIN EXPORTED_VARIABLES */
+
+/* USER CODE END EXPORTED_VARIABLES */
+
+/**
+  * @}
+  */
+
+/** @defgroup USBD_AUDIO_IF_Private_FunctionPrototypes USBD_AUDIO_IF_Private_FunctionPrototypes
+  * @brief Private functions declaration.
+  * @{
+  */
+
+static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t options);
+static int8_t AUDIO_DeInit_FS(uint32_t options);
+static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd);
+static int8_t AUDIO_VolumeCtl_FS(uint8_t vol);
+static int8_t AUDIO_MuteCtl_FS(uint8_t cmd);
+static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd);
+static int8_t AUDIO_GetState_FS(void);
+
+/* USER CODE BEGIN PRIVATE_FUNCTIONS_DECLARATION */
+
+/* USER CODE END PRIVATE_FUNCTIONS_DECLARATION */
+
+/**
+  * @}
+  */
+
+USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
+{
+  AUDIO_Init_FS,
+  AUDIO_DeInit_FS,
+  AUDIO_AudioCmd_FS,
+  AUDIO_VolumeCtl_FS,
+  AUDIO_MuteCtl_FS,
+  AUDIO_PeriodicTC_FS,
+  AUDIO_GetState_FS,
+};
+
+/* Private functions ---------------------------------------------------------*/
 /**
   * @brief  Initializes the AUDIO media low layer over USB FS IP
   * @param  AudioFreq: Audio frequency used to play the audio stream.
-  * @param  Volume: Initial volume level (0..100)
+  * @param  Volume: Initial volume level (from 0 (Mute) to 100 (Max))
   * @param  options: Reserved for future use
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
 static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t options)
 {
-  AudioStream_Init();
+  /* USER CODE BEGIN 0 */
+  UNUSED(AudioFreq);
+  UNUSED(Volume);
+  UNUSED(options);
 
+  AudioStream_Init();
   current_audio_state = AUDIO_STATE_STOPPED;
 
   return (USBD_OK);
+  /* USER CODE END 0 */
 }
 
 /**
@@ -52,9 +161,14 @@ static int8_t AUDIO_Init_FS(uint32_t AudioFreq, uint32_t Volume, uint32_t option
   */
 static int8_t AUDIO_DeInit_FS(uint32_t options)
 {
-  BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
+  /* USER CODE BEGIN 1 */
+  UNUSED(options);
+
+  // BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW); // SİLİNDİ
   current_audio_state = AUDIO_STATE_STOPPED;
+
   return (USBD_OK);
+  /* USER CODE END 1 */
 }
 
 /**
@@ -66,6 +180,7 @@ static int8_t AUDIO_DeInit_FS(uint32_t options)
   */
 static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd)
 {
+  /* USER CODE BEGIN 2 */
   switch(cmd)
   {
     case AUDIO_CMD_START:
@@ -75,43 +190,63 @@ static int8_t AUDIO_AudioCmd_FS(uint8_t* pbuf, uint32_t size, uint8_t cmd)
       current_audio_state = AUDIO_STATE_BUFFERING;
       break;
 
+    case AUDIO_CMD_PLAY:
+      // Bazı hostlar START yerine PLAY gönderebilir veya resume durumunda
+      if(current_audio_state == AUDIO_STATE_STOPPED) {
+          AudioStream_Reset();
+          current_audio_state = AUDIO_STATE_BUFFERING;
+      }
+      break;
+
     case AUDIO_CMD_STOP:
       current_audio_state = AUDIO_STATE_STOPPED;
-      BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW);
+      // BSP_AUDIO_OUT_Stop(CODEC_PDWN_SW); // SİLİNDİ
       break;
   }
+
+  UNUSED(pbuf);
+  UNUSED(size);
+  // UNUSED(cmd); // cmd artik kullaniliyor
   return (USBD_OK);
+  /* USER CODE END 2 */
 }
 
 /**
   * @brief  Controls AUDIO Volume.
-  * @param  vol: Volume level (0..100)
+  * @param  vol: volume level (0..100)
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
 static int8_t AUDIO_VolumeCtl_FS(uint8_t vol)
 {
-  BSP_AUDIO_OUT_SetVolume(vol);
+  /* USER CODE BEGIN 3 */
+  // BSP_AUDIO_OUT_SetVolume(vol); // MAX98357'de yazılımsal gain yoktur.
   return (USBD_OK);
+  /* USER CODE END 3 */
 }
 
 /**
   * @brief  Controls AUDIO Mute.
-  * @param  cmd: Command opcode
+  * @param  cmd: command opcode
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
 static int8_t AUDIO_MuteCtl_FS(uint8_t cmd)
 {
-  BSP_AUDIO_OUT_SetMute(cmd);
+  /* USER CODE BEGIN 4 */
+  // BSP_AUDIO_OUT_SetMute(cmd); // MAX98357'de yazılımsal mute yoktur.
   return (USBD_OK);
+  /* USER CODE END 4 */
 }
 
 /**
-  * @brief  AUDIO_PeriodicTC_FS
+  * @brief  AUDIO_PeriodicT_FS
   * @param  cmd: Command opcode
   * @retval USBD_OK if all operations are OK else USBD_FAIL
   */
 static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd)
 {
+  /* USER CODE BEGIN 5 */
+  UNUSED(cmd);
+
   // Eger durmussak hicbir sey yapma
   if (current_audio_state == AUDIO_STATE_STOPPED) {
       return (USBD_OK);
@@ -126,11 +261,19 @@ static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd)
       if (AudioStream_Is_Ready_To_Play())
       {
           current_audio_state = AUDIO_STATE_PLAYING;
-          BSP_AUDIO_OUT_Play((uint16_t*)Audio_Tx_Buffer, TX_FULL_SAMPLES * 2);
+
+          /* DEĞİŞİKLİK:
+             BSP_AUDIO_OUT_Play fonksiyonu kaldırıldı.
+             DMA (Circular Mode) zaten App_Init içinde başlatıldı ve dönüyor.
+             Sadece 'PLAYING' durumuna geçmemiz yeterli,
+             AudioStream mantığı artık sessizlik yerine veri basmaya başlayacak.
+          */
+          // BSP_AUDIO_OUT_Play((uint16_t*)Audio_Tx_Buffer, TX_FULL_SAMPLES * 2);
       }
   }
 
   return (USBD_OK);
+  /* USER CODE END 5 */
 }
 
 /**
@@ -139,38 +282,48 @@ static int8_t AUDIO_PeriodicTC_FS(uint8_t *pbuf, uint32_t size, uint8_t cmd)
   */
 static int8_t AUDIO_GetState_FS(void)
 {
+  /* USER CODE BEGIN 6 */
   return (USBD_OK);
+  /* USER CODE END 6 */
 }
 
-/* --- BSP CALLBACK BRIDGE (DONANIM KOPRUSU) --- */
-/* DMA Kesmeleri Tetiklendiginde Burasi Calisir */
-
-void BSP_AUDIO_OUT_HalfTransfer_CallBack(void)
+/**
+  * @brief  Manages the DMA full transfer complete event.
+  * @retval None
+  */
+void TransferComplete_CallBack_FS(void)
 {
-  // Eger calmiyorsak bosuna islem yapma
-  if (current_audio_state == AUDIO_STATE_PLAYING) {
-      AudioStream_Process_Half_Transfer();
-  }
+  /* USER CODE BEGIN 7 */
+  USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_FULL);
+  /* USER CODE END 7 */
 }
 
-void BSP_AUDIO_OUT_TransferComplete_CallBack(void)
+/**
+  * @brief  Manages the DMA Half transfer complete event.
+  * @retval None
+  */
+void HalfTransfer_CallBack_FS(void)
 {
-  // Eger calmiyorsak bosuna islem yapma
-  if (current_audio_state == AUDIO_STATE_PLAYING) {
-      AudioStream_Process_Full_Transfer();
-  }
+  /* USER CODE BEGIN 8 */
+  USBD_AUDIO_Sync(&hUsbDeviceFS, AUDIO_OFFSET_HALF);
+  /* USER CODE END 8 */
 }
 
-/* --- LINKER HATASINI COZEN YAPI --- */
-/* USB Device Library bu yapiyi 'extern' olarak arar. */
+/* USER CODE BEGIN PRIVATE_FUNCTIONS_IMPLEMENTATION */
 
-USBD_AUDIO_ItfTypeDef USBD_AUDIO_fops_FS =
-{
-  AUDIO_Init_FS,
-  AUDIO_DeInit_FS,
-  AUDIO_AudioCmd_FS,
-  AUDIO_VolumeCtl_FS,
-  AUDIO_MuteCtl_FS,
-  AUDIO_PeriodicTC_FS,
-  AUDIO_GetState_FS,
-};
+/* --- BSP CALLBACK BRIDGE KISMI TAMAMEN SİLİNDİ --- */
+/*
+   HAL_I2S_TxHalfCpltCallback ve HAL_I2S_TxCpltCallback fonksiyonları
+   artık audio_stream.c içerisinde yer aldığı için buradaki eski
+   BSP köprülerine gerek kalmadı.
+*/
+
+/* USER CODE END PRIVATE_FUNCTIONS_IMPLEMENTATION */
+
+/**
+  * @}
+  */
+
+/**
+  * @}
+  */

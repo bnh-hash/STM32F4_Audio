@@ -15,13 +15,12 @@
 // --- DMA BUFFER AYARLARI (PING-PONG) ---
 // 1920 Sample = 960 Stereo Frame = 20ms Gecikme (Stabil ve Guvenli)
 // Eger daha dusuk gecikme isterseniz bunu 960 (10ms) veya 480 (5ms) yapabilirsiniz.
-#define TX_HALF_SAMPLES      (192) // 2ms
+#define TX_HALF_SAMPLES      (192) // 2ms (Not: USB paket boyutuyla uyumlu olmali)
 #define TX_FULL_SAMPLES      (TX_HALF_SAMPLES * 2)
 
 // --- RING BUFFER AYARLARI ---
 // USB'den gelen paketleri depolayan ana havuz.
 // DMA buffer'indan en az 2-4 kat buyuk olmalidir.
-// 32768 Byte = Yaklasik 170ms ses tutar. (Oldukca guvenli)
 #define RING_BUFFER_SIZE     (65536)
 
 // --- DRIFT COMPENSATION (KAYMA DUZELTME) AYARLARI ---
@@ -29,9 +28,6 @@
 #define TARGET_LEVEL         (RING_BUFFER_SIZE / 2)
 
 // Tampon %50'den ne kadar saparsa mudahale edelim?
-// 1920 sample (DMA boyutu) kadar sapmaya izin veriyoruz.
-// Bu degeri cok dusururseniz (orn: 100) ses surekli titrer (warbling).
-// Bu degeri cok yukseltirseniz (orn: 10000) citirti riski artar.
 #define DRIFT_THRESHOLD      (2048)
 
 /* ==========================================================================
@@ -45,8 +41,11 @@ extern int16_t Audio_Tx_Buffer[TX_FULL_SAMPLES];
  * FONKSIYON PROTOTIPLERI
  * ========================================================================== */
 
-// Sistemi baslatir ve sifirlar
+// Sistemi baslatir ve degiskenleri sifirlar
 void AudioStream_Init(void);
+
+// [YENI] DMA Transferini baslatan fonksiyon (app_main.c'den cagrilir)
+void AudioStream_Start(void);
 
 // Pointerlari ve bufferlari temizler
 void AudioStream_Reset(void);

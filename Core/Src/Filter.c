@@ -140,29 +140,77 @@ static void Apply_HPF(float *sample_L, float *sample_R) {
     *sample_L = out_L; *sample_R = out_R;
 }
 
+#define WAH_MAKEUP_GAIN  4.0f
 static void Apply_AutoWah(float *sample_L, float *sample_R) {
-    if (!current_params.wah_enable) return;
-    float clean_L = *sample_L; float clean_R = *sample_R;
-    float input_abs_L = fabsf(*sample_L); float input_abs_R = fabsf(*sample_R);
-    if (input_abs_L > env_level_L) env_level_L = WAH_ATTACK * input_abs_L + (1.0f - WAH_ATTACK) * env_level_L;
-    else env_level_L = WAH_RELEASE * input_abs_L + (1.0f - WAH_RELEASE) * env_level_L;
-    if (input_abs_R > env_level_R) env_level_R = WAH_ATTACK * input_abs_R + (1.0f - WAH_ATTACK) * env_level_R;
-    else env_level_R = WAH_RELEASE * input_abs_R + (1.0f - WAH_RELEASE) * env_level_R;
+    // 1. Wah kapalıysa işlem yapmadan çık
+    if (!current_params.wah_enable) {
+        return;
+    }
+
+    // Orijinal (Clean) sinyalleri sakla
+    float clean_L = *sample_L;
+    float clean_R = *sample_R;
+
+    // --- ENVELOPE FOLLOWER (Zarf Takipçisi) ---
+    // Giriş sinyalinin mutlak değerini (genliğini) al
+    float input_abs_L = fabsf(*sample_L);
+    float input_abs_R = fabsf(*sample_R);
+
+    // Sol Kanal Envelope
+    if (input_abs_L > env_level_L) {
+        env_level_L = WAH_ATTACK * input_abs_L + (1.0f - WAH_ATTACK) * env_level_L;
+    } else {
+        env_level_L = WAH_RELEASE * input_abs_L + (1.0f - WAH_RELEASE) * env_level_L;
+    }
+
+    // Sağ Kanal Envelope
+    if (input_abs_R > env_level_R) {
+        env_level_R = WAH_ATTACK * input_abs_R + (1.0f - WAH_ATTACK) * env_level_R;
+    } else {
+        env_level_R = WAH_RELEASE * input_abs_R + (1.0f - WAH_RELEASE) * env_level_R;
+    }
+
+    // --- FREKANS MODÜLASYONU ---
+    // Envelope değerini 0.0 - 1.0 arasına normalize etmeye çalışıyoruz.
+    // NOT: 10000.0f değeri giriş sinyalinizin genliğine (int16 veya float) göre değişebilir.
     float mod_L = (env_level_L / 10000.0f) * current_params.wah_sensitivity;
     float mod_R = (env_level_R / 10000.0f) * current_params.wah_sensitivity;
-    if (mod_L > 1.0f) mod_L = 1.0f; if (mod_R > 1.0f) mod_R = 1.0f;
+
+    // Sınırlandırma (Clamping) - Derleyici uyarısının olduğu yer burasıydı
+    if (mod_L > 1.0f) { mod_L = 1.0f; }
+    if (mod_L < 0.0f) { mod_L = 0.0f; }
+
+    if (mod_R > 1.0f) { mod_R = 1.0f; }
+    if (mod_R < 0.0f) { mod_R = 0.0f; }
+
+    // Modülasyonu frekans aralığına eşle
     float current_cutoff_L = WAH_MIN_FREQ + (WAH_MAX_FREQ - WAH_MIN_FREQ) * mod_L;
     float current_cutoff_R = WAH_MIN_FREQ + (WAH_MAX_FREQ - WAH_MIN_FREQ) * mod_R;
+
+    // --- STATE VARIABLE FILTER (SVF) HESAPLAMASI ---
+    // Chamberlin SVF Formülü
+    // f = 2 * sin(pi * Fc / Fs)
     float f_L = 2.0f * sinf(PI * current_cutoff_L / SAMPLE_RATE);
     float f_R = 2.0f * sinf(PI * current_cutoff_R / SAMPLE_RATE);
+
+    // Sol Kanal Filtre İşlemi
     svf_low_L += f_L * svf_band_L;
-    float high_L = (*sample_L) - svf_low_L - WAH_Q_FACTOR * svf_band_L;
+    float high_L = (*sample_L) - svf_low_L - (WAH_Q_FACTOR * svf_band_L);
     svf_band_L += f_L * high_L;
+
+    // Sağ Kanal Filtre İşlemi
     svf_low_R += f_R * svf_band_R;
-    float high_R = (*sample_R) - svf_low_R - WAH_Q_FACTOR * svf_band_R;
+    float high_R = (*sample_R) - svf_low_R - (WAH_Q_FACTOR * svf_band_R);
     svf_band_R += f_R * high_R;
-    *sample_L = clean_L * (1.0f - current_params.wah_mix) + (svf_band_L * 3.0f) * current_params.wah_mix;
-    *sample_R = clean_R * (1.0f - current_params.wah_mix) + (svf_band_R * 3.0f) * current_params.wah_mix;
+
+    // --- ÇIKIŞ KARIŞIMI (MIX) ---
+    // Islak (Efektli) sinyale biraz kazanç (Gain) ekliyoruz çünkü Bandpass filtre sesi kısar.
+    float wet_L = svf_band_L * WAH_MAKEUP_GAIN;
+    float wet_R = svf_band_R * WAH_MAKEUP_GAIN;
+
+    // Dry/Wet Mix
+    *sample_L = (clean_L * (1.0f - current_params.wah_mix)) + (wet_L * current_params.wah_mix);
+    *sample_R = (clean_R * (1.0f - current_params.wah_mix)) + (wet_R * current_params.wah_mix);
 }
 
 // --- BITCRUSHER & ANTI-ALIASING STATE ---
